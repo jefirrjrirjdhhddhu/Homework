@@ -98,7 +98,6 @@ app.delete('/homework/:id', async (req, res, next) => {
   const objDate = `${dd}/${dm}/${dy}`
    const message = "\n" + "ทำการบ้านเสร็จวันที่:" + objDate + "\n" 
                    + "วิชา:" + " " + post.subject + "\n" 
-                   + "เรื่อง:" + " " + post.desc + "\n"
                    + "สามารถดูเพิ่มเติมได้ที่:" + " " + "https://relax-family.vercel.app/homework/"
 
   const tokenline = process.env.TOKEN_LINE
