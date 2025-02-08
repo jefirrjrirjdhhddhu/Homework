@@ -5,7 +5,7 @@ require('dotenv').config()
     // return;
 
     mongoose.set('strictQuery', false);
-    const connectmongo = mongoose.createConnection(process.env.API_MAINHOMEWORK, {
+    const connectmongo = mongoose.createConnection(process.env.API, {
         useNewUrlParser: "true",
         useUnifiedTopology: "true"
     })

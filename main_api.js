@@ -3,6 +3,13 @@ const router = express.Router();
 const mongoose = require('mongoose')
 const mainHomework = require('./main_homework')
 const { v4: uuidv4 } = require('uuid');
+// const EventEmitter = require('events');
+// const myEmitter = new EventEmitter();
+
+// myEmitter.on('error', (err) => {
+//   console.error('An error occurred:', err);
+// });
+
 
 
 const ddd = new Date()
@@ -13,10 +20,40 @@ const dd = ddd.getDate()
 
 const objDate = `${dd}/${dm}/${dy}`
 
-router.get('/homework/:id', (req, res, next) => {
-    mainHomework.findById(req.params.id, (err, date) => {
-        res.json(date.homework)
+router.post('/user/:id', (req, res) => {
+    const id = req.params.id
+
+    mainHomework.findById(id, (err, data) => {
+        res.json({
+            useradmin: data.useradmin,
+            passwordAdmin: data.passwordAdmin,
+            family: data.family
+        })
     })
+})
+
+router.put('/user/:id', (req, res) => {
+    const id = req.params.id
+    const data = req.body
+
+    mainHomework.updateOne(
+        {_id: id},
+        {$set: {useradmin: data.username, passwordAdmin: data.password}}
+    ).then(r => {
+        res.json({
+            message: "update success"
+        })
+    })
+})
+
+router.get('/homework/:id', (req, res, next) => {
+    try{
+        mainHomework.findById(req.params.id, (err, date) => {
+            res.json(date.homework)
+        })
+    }catch(err) {
+        console.log(err)
+    }
 })
 
 router.post('/create', async (req, res, next) => {
@@ -31,7 +68,7 @@ router.post('/create', async (req, res, next) => {
     })
 
     await main.save().then((id) => {
-        res.json(id._id)
+        res.json({id: id._id})
         console.log("create success")
     })
     // mainHomework.create(req.body, (err, data) => {
@@ -63,6 +100,40 @@ router.post('/homework/:id', (req, res, next) => {
     }catch(err) {
         console.log(err)
     }
+})
+
+router.post('/family/:id', (req, res) => {
+    const id = req.params.id
+
+    mainHomework.updateOne(
+        {_id: id},
+        {$push: {family: {
+            id: uuidv4(),
+            username: req.body.username,
+            password: req.body.password,
+        }}}
+    ).then(r => {
+        res.json({
+            status: 200,
+            message: "add family success"
+        })
+    })
+})
+
+router.delete('/family/:id', (req, res) => {
+    const id = req.params.id
+
+    mainHomework.updateOne(
+        {_id: id},
+        {$pull: {family: {
+            id: req.body.id
+        }}}
+    ).then(r => {
+        res.json({
+            status: 200,
+            message: "delete family success"
+        })
+    })
 })
 
 router.delete('/homework/:id/:idHomework', (req, res, next) => {

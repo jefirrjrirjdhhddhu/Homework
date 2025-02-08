@@ -6,6 +6,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const homework = require('./homework')
 const mainApi = require('./main_api')
+const mainControl = require('./mainApi')
 const loginhomework = require('./homeworkloginmongo')
 require('dotenv').config()
 // const{TodoistApi} = require('@doist/todoist-api-typescript')
@@ -21,7 +22,9 @@ const { now } = require('mongoose')
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cors())
+// app.use(express.urlencoded({ extended: true }));
 app.use('/mainhomework', mainApi)
+app.use('/control', mainControl)
 
 app.use(bodyparser.json())  
 
@@ -288,7 +291,7 @@ app.post('/createloginhomework', async (req, res, next) => {
 
 
 
-app.listen(2553, () => {
+app.listen(2553, "0.0.0.0", () => {
   console.log('Start server at port 2553.')
 })
 
