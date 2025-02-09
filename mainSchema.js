@@ -12,6 +12,7 @@ require('dotenv').config()
     }
 
 const control = new mongoose.Schema({
+    com: Boolean,
     admin: String,
     chrome: Boolean,
     shutdown: Boolean,

@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require("uuid");
 
 router.post("/create", (req, res) => {
   const data = new mainControl({
+    com: false,
     admin: req.body.admin,
     chrome: false,
     shutdown: false,
@@ -95,6 +96,20 @@ router.put("/", (req, res) => {
 
             console.log("vsCode success");
             });
+      }else if(data.com === true) {
+        mainControl
+        .updateOne(
+        { admin: r.admin },
+        {$set: {com: true}}
+        )
+        .then((e) => {
+        res.json({
+            status: 200,
+            message: "update shutdown success",
+        });
+
+        console.log("com success");
+        });
       }else {
         checkDelete(r)
       }
@@ -163,7 +178,21 @@ router.put("/", (req, res) => {
                 message: "update vscode success"
             })
         })
-    }
+    }else if(data.com === false) {
+      mainControl.updateOne(
+          {admin: admin},
+          {$set: {com: false}}
+      ).then(() => {
+          res.json({
+              status: 200,
+              message: "update com success"
+          })
+      })
+
+
+
+
+  }
 }
 
 /////////////////////////////////////////////////////////////
