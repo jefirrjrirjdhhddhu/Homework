@@ -8,6 +8,8 @@ const homework = require('./homework')
 const mainApi = require('./main_api')
 const mainControl = require('./mainApi')
 const loginhomework = require('./homeworkloginmongo')
+const activity = require('./activity/activity')
+const school = require('./school/School')
 require('dotenv').config()
 // const{TodoistApi} = require('@doist/todoist-api-typescript')
 // const api = new TodoistApi(process.env.API_KEY);
@@ -25,6 +27,8 @@ app.use(cors())
 // app.use(express.urlencoded({ extended: true }));
 app.use('/mainhomework', mainApi)
 app.use('/control', mainControl)
+app.use('/activity', activity)
+app.use('/school', school)
 
 app.use(bodyparser.json())  
 
