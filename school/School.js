@@ -14,12 +14,7 @@ require('dotenv').config()
 
 const { v4: uuidv4 } = require('uuid');
 
-const ddd = new Date()
-const dm = ddd.getMonth() + 1
-const dy = ddd.getFullYear()
-const dd = ddd.getDate()
 
-const objDate = `${dd}/${dm}/${dy}`
 
 router.get('/', (req, res) => {
     school.find().sort({ createdAt: -1 }).then(r => {
@@ -27,8 +22,22 @@ router.get('/', (req, res) => {
     })
 })
 
+router.delete('/:id', (req, res) => {
+    const id = req.params.id
+
+    school.findByIdAndDelete(id).then(r => {
+        res.json(r)
+    })
+})
+
 router.post('/', (req, res) => {
     const text = req.body.text
+    const ddd = new Date()
+    const dm = ddd.getMonth() + 1
+    const dy = ddd.getFullYear()
+    const dd = ddd.getDate()
+
+    const objDate = `${dd}/${dm}/${dy}`
 
     const data = new school({
         Date: objDate,
