@@ -120,6 +120,20 @@ router.post('/family/:id', (req, res) => {
     })
 })
 
+router.put('/family/:id', (req, res) => {
+    const id = req.params.id
+
+    mainHomework.updateOne(
+        {_id: id},
+        {$set: {family: req.body}}
+    ).then((r) => {
+        res.status(200).json({
+            status: 200,
+            message: 'update success'
+        })
+    })
+})
+
 router.delete('/family/:id', (req, res) => {
     const id = req.params.id
 
@@ -178,7 +192,7 @@ router.post('/login', (req, res, next) => {
             mainHomework.findOne({
                 family: {
                     $elemMatch: {
-                        user: username
+                        username: username
                     }
                 }
             }).then(user=> {
@@ -186,17 +200,21 @@ router.post('/login', (req, res, next) => {
                     const userfamily = user.family
                     userfamily.forEach(userf => {
                         if(userf.password === password) {
-                            res.json({
-                                id: user._id,
-                                status: 200,
-                                message: "loginfamily success",
-                                user: "family"
-                            })
+                            return (
+                                res.json({
+                                    id: user._id,
+                                    status: 200,
+                                    message: "loginfamily success",
+                                    user: "family"
+                                })
+                            )
                         }else{
-                            res.json({
-                                message: "password incorrect",
-                                status: "no_password",
-                            })
+                            return (
+                                res.json({
+                                    message: "password incorrect",
+                                    status: "no_password",
+                                })
+                            )
                         }
                     })
                 }else{

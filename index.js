@@ -148,6 +148,7 @@ app.post('/loginhomework', async (req, res) => {
             "username" : user.username
           })
           console.log("Login Success")
+          return;
         }else{
           res.json({
             "Status" : "password is incorrect"
