@@ -111,6 +111,7 @@ router.post('/family/:id', (req, res) => {
             id: uuidv4(),
             username: req.body.username,
             password: req.body.password,
+            Gmail: req.body.Gmail
         }}}
     ).then(r => {
         res.json({
