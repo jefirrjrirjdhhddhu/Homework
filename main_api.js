@@ -79,6 +79,8 @@ router.post('/create', async (req, res, next) => {
 })
 
 router.post('/homework/:id', (req, res, next) => {
+   const id = uuidv4();
+    
     const data = {
         id: id,
         subject: req.body.subject,
@@ -86,7 +88,6 @@ router.post('/homework/:id', (req, res, next) => {
         date: objDate
     }
     try{
-    const id = uuidv4();
         mainHomework.updateOne(
             {_id: req.params.id},
             {$push: {
