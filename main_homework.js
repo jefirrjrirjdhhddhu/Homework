@@ -19,7 +19,8 @@ require('dotenv').config()
         useradmin: String,
         passwordAdmin: String,
         family: Array,
-        homework: Array
+        homework: Array,
+        record: Array
     })
 
 const main_homework = mongoose.model("mainHomework", maths)

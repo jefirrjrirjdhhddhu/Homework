@@ -88,6 +88,12 @@ router.post('/homework/:id', (req, res, next) => {
                 subject: req.body.subject,
                 desc: req.body.desc,
                 date: objDate
+            }}},
+            {$push: {orcord: {
+                id: id,
+                subject: req.body.subject,
+                desc: req.body.desc,
+                date: objDate
             }}}
         ).then(() => {
             res.json({
