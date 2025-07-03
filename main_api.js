@@ -79,22 +79,20 @@ router.post('/create', async (req, res, next) => {
 })
 
 router.post('/homework/:id', (req, res, next) => {
+    const data = {
+        id: id,
+        subject: req.body.subject,
+        desc: req.body.desc,
+        date: objDate
+    }
     try{
     const id = uuidv4();
         mainHomework.updateOne(
             {_id: req.params.id},
-            {$push: {homework: {
-                id: id,
-                subject: req.body.subject,
-                desc: req.body.desc,
-                date: objDate
-            }}},
-            {$push: {record: {
-                id: id,
-                subject: req.body.subject,
-                desc: req.body.desc,
-                date: objDate
-            }}}
+            {$push: {
+                family: data,
+                record: data
+            }}
         ).then(() => {
             res.json({
                 status: 200,
