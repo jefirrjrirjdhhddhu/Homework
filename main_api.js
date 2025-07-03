@@ -111,6 +111,13 @@ router.post('/homework/:id', (req, res, next) => {
 router.post('/family/:id', (req, res) => {
     const id = req.params.id
 
+    if(req.body == "" || req.body == null) {
+        res.json({
+            status: 200,
+            message: "not family"
+        })
+    }
+
     mainHomework.updateOne(
         {_id: id},
         {$push: {family: {
