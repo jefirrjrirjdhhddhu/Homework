@@ -56,6 +56,16 @@ router.get('/homework/:id', (req, res, next) => {
     }
 })
 
+router.get('/record/:id', (req, res, next) => {
+    try{
+        mainHomework.findById(req.params.id, (err, date) => {
+            res.json(date.record)
+        })
+    }catch(err) {
+        console.log(err)
+    }
+})
+
 router.post('/create', async (req, res, next) => {
 
     // res.json({
@@ -201,42 +211,42 @@ router.post('/login', (req, res, next) => {
                     message: "loginAdmin fail"
                 })
             }
-        }else {
-            mainHomework.findOne({
-                family: {
-                    $elemMatch: {
-                        username: username
-                    }
-                }
-            }).then(user=> {
-                if(user) {
-                    const userfamily = user.family
-                    userfamily.forEach(userf => {
-                        if(userf.password === password) {
-                            return (
-                                res.json({
-                                    id: user._id,
-                                    status: 200,
-                                    message: "loginfamily success",
-                                    user: "family"
-                                })
-                            )
-                        }else{
-                            return (
-                                res.json({
-                                    message: "password incorrect",
-                                    status: "no_password",
-                                })
-                            )
-                        }
-                    })
-                }else{
-                    res.json({
-                        message: "not have user",
-                        status: "no_user"
-                    })
-                }
-            })
+        // }else {
+        //     mainHomework.findOne({
+        //         family: {
+        //             $elemMatch: {
+        //                 username: username
+        //             }
+        //         }
+        //     }).then(user=> {
+        //         if(user) {
+        //             const userfamily = user.family
+        //             userfamily.forEach(userf => {
+        //                 if(userf.password === password) {
+        //                     return (
+        //                         res.json({
+        //                             id: user._id,
+        //                             status: 200,
+        //                             message: "loginfamily success",
+        //                             user: "family"
+        //                         })
+        //                     )
+        //                 }else{
+        //                     return (
+        //                         res.json({
+        //                             message: "password incorrect",
+        //                             status: "no_password",
+        //                         })
+        //                     )
+        //                 }
+        //             })
+        //         }else{
+        //             res.json({
+        //                 message: "not have user",
+        //                 status: "no_user"
+        //             })
+        //         }
+        //     })
         }
     }
 
