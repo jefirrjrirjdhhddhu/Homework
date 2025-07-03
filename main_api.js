@@ -89,7 +89,7 @@ router.post('/homework/:id', (req, res, next) => {
                 desc: req.body.desc,
                 date: objDate
             }}},
-            {$push: {orcord: {
+            {$push: {record: {
                 id: id,
                 subject: req.body.subject,
                 desc: req.body.desc,
