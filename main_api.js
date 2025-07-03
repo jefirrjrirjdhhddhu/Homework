@@ -90,7 +90,7 @@ router.post('/homework/:id', (req, res, next) => {
         mainHomework.updateOne(
             {_id: req.params.id},
             {$push: {
-                family: data,
+                homework: data,
                 record: data
             }}
         ).then(() => {
