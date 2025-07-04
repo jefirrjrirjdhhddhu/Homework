@@ -21,7 +21,7 @@ require('dotenv').config()
         family: Array,
         homework: Array,
         record: Array
-    })
+    }, {timestamps: true})
 
 const main_homework = mongoose.model("mainHomework", maths)
 

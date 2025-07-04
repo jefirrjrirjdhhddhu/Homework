@@ -46,9 +46,9 @@ router.put('/user/:id', (req, res) => {
     })
 })
 
-router.get('/homework/:id', (req, res, next) => {
+router.get('/homework/:id', async (req, res, next) => {
     try{
-        mainHomework.findById(req.params.id, (err, date) => {
+        await mainHomework.findById(req.params.id, (err, date) => {
             res.json(date.homework)
         })
     }catch(err) {
@@ -56,11 +56,21 @@ router.get('/homework/:id', (req, res, next) => {
     }
 })
 
-router.get('/record/:id', (req, res, next) => {
+router.get('/record/:id', async (req, res, next) => {
     try{
-        mainHomework.findById(req.params.id, (err, date) => {
-            res.json(date.record)
-        })
+        const data = await mainHomework.findById(req.params.id, (err, date) => {
+            if(!date){
+                return(
+                    res.status(400).json({
+                        message: "not found"
+                    })
+                )
+            }
+            return(res.json(date.record))
+        }).sort({createdAt: -1})
+
+        res.json(data)
+
     }catch(err) {
         console.log(err)
     }
@@ -186,6 +196,26 @@ router.delete('/homework/:id/:idHomework', (req, res, next) => {
         })
 
 
+
+    }catch(err) {
+        console.log(err)
+    }
+})
+
+router.delete('/record/:id/:idRecord', (req, res) => {
+    const id = req.params.id
+    const idRecord = req.params.idRecord
+
+    try{
+         mainHomework.updateOne(
+            {_id: id},
+            {$pull: {record: {id: idRecord}}}
+        ).then(() => {
+            res.json({
+                status: 200,
+                message: "success"
+            })
+        })
 
     }catch(err) {
         console.log(err)
