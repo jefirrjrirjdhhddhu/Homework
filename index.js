@@ -297,8 +297,8 @@ app.post('/createloginhomework', async (req, res, next) => {
 
 
 
-// app.listen(2553, "0.0.0.0", () => {
-//   console.log('Start server at port 2553.')
-// })
+app.listen(2553, "0.0.0.0", () => {
+  console.log('Start server at port 2553.')
+})
 
 module.exports.handler = serverless(app);
