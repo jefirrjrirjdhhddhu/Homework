@@ -10,7 +10,6 @@ const mainControl = require('./mainApi')
 const loginhomework = require('./homeworkloginmongo')
 const activity = require('./activity/activity')
 const school = require('./school/School')
-const serverless = require('serverless-http');
 require('dotenv').config()
 // const{TodoistApi} = require('@doist/todoist-api-typescript')
 // const api = new TodoistApi(process.env.API_KEY);
@@ -301,4 +300,4 @@ app.listen(2553, "0.0.0.0", () => {
   console.log('Start server at port 2553.')
 })
 
-module.exports.handler = serverless(app);
+module.exports = app
