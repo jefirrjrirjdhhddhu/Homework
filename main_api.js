@@ -2,7 +2,12 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose')
 const mainHomework = require('./main_homework')
+const nodemailer = require('nodemailer')
 const { v4: uuidv4 } = require('uuid');
+const cryptoRandomString = require('crypto-random-string').default;
+require('dotenv').config()
+
+const env = process.env
 // const EventEmitter = require('events');
 // const myEmitter = new EventEmitter();
 
@@ -20,6 +25,64 @@ const dd = ddd.getDate()
 
 const objDate = `${dd}/${dm}/${dy}`
 
+// router.post('/', (req, res) => {
+//     mainHomework.updateMany(
+//         {},
+//         {$set: {gmail: ""}}
+//     ).then(r => {
+//         res.json("success")
+//     })
+// })
+
+router.post('/gmail/:id', (req, res) => {
+    const id = req.params.id
+
+    mainHomework.updateOne(
+        {_id: id},
+        {$set: {gmail: req.body.gmail}}
+    ).then(r => {
+        res.json({
+            status: 200,
+            message: "add gmail success"
+        })
+    })
+})
+
+router.post('/otp', (req, res) => {
+    const number = cryptoRandomString({length: 6, type: 'numeric'})
+    const otp = btoa(number)
+    const close_password = atob(otp)
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: env.Gmail_User,
+            pass: env.Gmail_Password
+        }
+    })
+
+    const html = `รหัสของคุณคือ:  <b>${close_password}</b>`
+
+    const data = {
+        from: 'HomeworkRelax',
+        to: req.body.gmail,
+        subject: 'Homework Notify...',
+        html: html
+    }
+
+    transporter.sendMail(data, (err, info) => {
+        if(err) {
+            console.log(err)
+        }else{
+            console.log(info)
+            res.json({
+                number: otp
+            })
+        }
+    })
+    
+})
+
 router.post('/user/:id', (req, res) => {
     const id = req.params.id
 
@@ -27,7 +90,8 @@ router.post('/user/:id', (req, res) => {
         res.json({
             useradmin: data.useradmin,
             passwordAdmin: data.passwordAdmin,
-            family: data.family
+            family: data.family,
+            gmail: data.gmail
         })
     })
 })
