@@ -8,8 +8,8 @@ const homework = require('./homework')
 const mainApi = require('./main_api')
 const mainControl = require('./mainApi')
 const loginhomework = require('./homeworkloginmongo')
-const activity = require('./activity/activity')
-const school = require('./school/School')
+const activity = require('../activity/activity')
+const school = require('../school/School')
 require('dotenv').config()
 // const{TodoistApi} = require('@doist/todoist-api-typescript')
 // const api = new TodoistApi(process.env.API_KEY);
@@ -296,8 +296,8 @@ app.post('/createloginhomework', async (req, res, next) => {
 
 
 
-app.listen(2553, "0.0.0.0", () => {
-  console.log('Start server at port 2553.')
-})
+// app.listen(2553, "0.0.0.0", () => {
+//   console.log('Start server at port 2553.')
+// })
 
 module.exports = app
